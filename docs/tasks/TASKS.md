@@ -26,8 +26,8 @@
 | AMB-006 | P0 | `core/card.py` CCv3 导出/导入映射 | 002 | accepted / ZCode-GLM / 2026-09-27 |
 | AMB-007 | P0 | `core/memory.py` 四层记忆 + 隔离 + 三因子召回 | 002 | accepted / ZCode-GLM / 2026-09-27 |
 | AMB-008 | P0 | 测试套件 + 污染探针 + ruff 门禁 | 003-007 | accepted / ZCode-GLM / 2026-09-27：pytest 22 passed / 0 failed；ruff All checks passed |
-| AMB-101 | P1 | 华灯基座审计（代码质量/合并健康度/单维护者风险） | — | planned |
-| AMB-102 | P1 | fork + de-google 构建 + CI | 101 | planned |
+| AMB-101 | P1 | 华灯基座审计（代码质量/合并健康度/单维护者风险） | — | accepted / ZCode-GLM / [审计报告](../research/20260927-huadeng-audit.md) 2026-09-27 |
+| AMB-102 | P1 | fork + de-google 构建 + CI | 101 | review / ZCode-GLM / 2026-09-27 本机构建通过（app-debug.apk 144M）；de-google 无需补丁（Firebase 属性门控默认关）；fork git 基线与 CI 待用户 GitHub 账号授权后建立 |
 | AMB-201 | P2 | Kotlin：导入器移植（Room schema） | 102 | planned |
 | AMB-202 | P2 | Kotlin：蒸馏状态机 + WorkManager 后台分批 | 102 | planned |
 | AMB-203 | P2 | Kotlin：四层记忆 + 三因子召回 | 201-202 | planned |
@@ -52,3 +52,14 @@
   9. ruff E501/UP031/B007 清零（line-length 120、f-string 化、未用循环变量）。
 - 终态：**pytest 22 passed / 0 failed / 0 errors；ruff All checks passed**。
 - 未决：软件名"琥珀"为暂定代号，待用户拍板；P1（AMB-101/102）需 Android 构建环境，本机暂无 SDK；华灯残骸目录（gh 直连失败产物）待进程释放后清理。
+
+## 4. P1 执行记录（2026-09-27，ZCode-GLM）
+
+- **AMB-101 审计结论**（详见审计报告）：基座通过审计。最重要发现：① Firebase 默认关闭（属性门控），无需 de-google 补丁；② Chaquopy 内嵌 Python 3.12——琥珀 core 引擎可 App 内直跑，P2 工作量减半；③ 华灯记忆系统（三层记忆+Jev 筛选+episodic 衰减+滚动压缩+RAG）已覆盖琥珀 memory 层大部分语义，琥珀差异化收窄为"真人蒸馏管线 + 画像证据可回溯 + 关系级隔离 spec"。
+- **AMB-102 构建环境**（本机从零）：JDK 21（清华 Adoptium 镜像）→ `D:/android-dev/jdk`；cmdline-tools + platform-tools + android-37.0 + build-tools 36.1.0 + NDK 28.2 + CMake 3.22.1（dl.google.com 直连，autoSDK 自动补齐）；Gradle 9.6.0（腾讯镜像）。
+- **自检自查中解决的三道构建障碍**：
+  1. daemon JVM criteria 强制 vendor=JetBrains（foojay→cloudfront 被墙）→ 复制 Temurin JDK 副本改 release 元数据为 JetBrains s.r.o.，经 `org.gradle.java.installations.paths` 本地命中（元数据级 workaround，已如实记录于审计报告）；
+  2. `kotlin-compiler-embeddable-2.4.10.jar` 在 mavenCentral 302 到 GitHub 被墙 → gh-proxy 拉取 jar+pom 补入 mavenLocal（settings 已含 mavenLocal()）；
+  3. GitHub archive zip 不含 submodule（material-color-utilities 的 kotlin 源码缺失导致 material3 模块编译失败）→ gh-proxy 拉取 submodule 源码补位（43 个 .kt 文件）。
+- **终态**：`gradle assembleDebug` **BUILD SUCCESSFUL**（385 tasks），产物 `app-debug.apk` 144MB（含 Python 运行时）。debug 包未签名可直接安装验证；release 需 local.properties 配置 keystore。
+- 移交用户：GitHub 账号授权后建立琥珀 fork 的 git 基线与 CI（gh-proxy 无法替代 gh 登录态）；APK 真机安装验证。
