@@ -1,0 +1,27 @@
+[project]
+name = "amber-core"
+version = "0.1.0"
+description = "琥珀（Amber）核心引擎参考实现：聊天记录导入、真人蒸馏、四层记忆、SillyTavern 角色卡互通"
+requires-python = ">=3.10"
+license = { text = "AGPL-3.0-only" }
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["amber_core*"]
+
+[tool.pytest.ini_options]
+testpaths = ["core/tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B"]
