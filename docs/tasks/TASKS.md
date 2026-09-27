@@ -77,3 +77,16 @@
 - **自检自查修复**：icons FileImport 不存在→DatabaseImport（jar 内枚举核实）；nestedScroll/PaddingValues.plus 缺 import；File.apply 嵌套 use 类型推断失败→平铺 use；Triple 字面量 vs R.string 资源 ID；ProactiveMessageSetting 缺 import。
 - **终态**：`assembleDebug` BUILD SUCCESSFUL（148M APK，含蒸馏页+护栏）；Kotlin 编译零警告级错误。
 - **AMB-203 收窄缺口**：蒸馏产物 memories 自动注入华灯记忆库待做（当前卡内 lore/mes_example 随导入生效）；AMB-302（纪念日/关系阶段实体）planned。
+
+## 6. 身份化改造记录（2026-09-27，ZCode-GLM；华灯 fork 提交 6ab1adc）
+
+用户指出"应用还是华灯、残留华灯个人信息"。全面盘点后逐项改造：
+- 应用名：Lantern/华灯 → **Amber/琥珀**（en/zh/zh-rTW）
+- 图标：PIL 生成琥珀主题（amber-600 底 + 白"琥"字），自适应 foreground/background + legacy 圆形全密度替换
+- applicationId：`me.rerere.rikkahub.huadeng` → `com.amber.companion`（新包名可与华灯共存；Manifest 全部走 ${applicationId} 占位，零硬编码）
+- 关于页：标题 Amber；移除 rikka-ai.com 官网行；上游链接保留并改语义为 AGPL 合规致谢（华灯→RikkaHub 链式留档）；版本文案"琥珀（基于华灯/RikkaHub）"
+- 捐赠页：设置页入口移除（上游作者收款链接不再可达）
+- 更新检查：UpdateChecker.checkUpdate 短路停用（原指向 MiaoWuNYA 仓库），UI 零打扰
+- 残留扫描：MiaoWuNYA/afdian/reovo/rikka-ai.com/QQ 群全仓 grep 清零
+- **新发现**：华灯已有 `CoupleSpaceTools.kt`（情侣空间工具），AMB-302 的纪念日/生活空间部分能力现成
+- 终态：BUILD SUCCESSFUL；桌面 `琥珀-distill-debug.apk` 已更新
