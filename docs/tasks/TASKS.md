@@ -100,3 +100,10 @@
 - 自检修复：XML 裸 `&`、unused/缺失 import（JsonObject/contentOrNull）、listDir 返回类型注解、Package/plus import、Store0 图标不存在换 Package。
 - 终态：assembleDebug BUILD SUCCESSFUL；桌面 APK 已更新（19:06）。
 - 已知边界：卡库内容来自社区公开仓库（含成人题材分类），页面已提示"请自行甄别"；缩略图未加载（MVP 只列名称，省流量）；更换/追加卡源仓库只需改 CardMarketClient 的 REPO 常量。
+
+## 8. 自动更新机制记录（2026-09-28，ZCode-GLM；华灯 fork 提交 80d53b9）
+
+- 用户问"软件不能自动拉取更新吗"。答：之前身份化时更新通道随华灯作者仓库一并停用（REPO 留空=静默禁用，UI 零打扰）。
+- **本轮恢复全机制**：UpdateChecker 完整保留华灯成熟实现（GitHub Releases API 主源 → update.json 兜底 [jsDelivr 国内直连第一优先 + ghproxy 镜像] → 下载前 HEAD 探路 + DownloadManager 断点续传）；REPO 常量留空即禁用，**建仓后填 owner/repo 一行即点亮**。
+- **发版管线全通**：生成琥珀专属签名 keystore（D:/android-dev/amber-release.jks，CN=Amber，不入库）→ local.properties 签名配置 → `assembleRelease` 实测成功（app-release.apk 101M，R8 后比 debug 小 47M，apksigner 验签通过）→ `core/tools/release.py` 一键发版（构建+update.json 生成+gh 发布指引）。
+- **待用户一步**：GitHub 建仓（建议名 amber）+ `gh auth login` 授权；之后 `python core/tools/release.py --repo <用户名>/amber` 即完成首次正式发版，App 内更新检查自动点亮。
