@@ -91,3 +91,12 @@
 - 残留扫描：MiaoWuNYA/afdian/reovo/rikka-ai.com/QQ 群全仓 grep 清零
 - **新发现**：华灯已有 `CoupleSpaceTools.kt`（情侣空间工具），AMB-302 的纪念日/生活空间部分能力现成
 - 终态：BUILD SUCCESSFUL；桌面 `琥珀-distill-debug.apk` 已更新
+
+## 7. AMB-104 执行记录（2026-09-28，ZCode-GLM；华灯 fork 提交 ec287f2）
+
+- 用户问"能否 App 内直接选取下载角色卡"。调研：**Chub API 返回 "This service is not available in your country"（地区屏蔽），不可作内置通道**；JanitorAI 非公开 API；Discord 类脑无法程序接入。
+- **落地通道**：GitHub 公开合集仓 `leigegehaha/sillytavernassets`（172★，32 分类/数百张中文卡）+ gh-proxy/ghproxy.net/ghfast.top 多镜像容错（与 UpdateChecker 同思路）；contents API 列目录 + raw 下载，实测中文路径 URL 编码、PNG tEXt(chara) 解析均通过。
+- **实装**：`data/market/CardMarketClient.kt`（多镜像 listDir/download/路径编码）+ `ui/pages/market/CardMarketPage.kt`（分类浏览→卡列表→搜索→点卡片下载并直接走 `importFromString` 导入为助手，进度/错误/toast 完整）；助手页顶栏新增"卡市场"入口（Package 图标）；`importFromString` private→internal 复用；顺手放宽 json 导入的 MIME 过滤（octet-stream，解决微信传 json 在选择器里消失的问题）。
+- 自检修复：XML 裸 `&`、unused/缺失 import（JsonObject/contentOrNull）、listDir 返回类型注解、Package/plus import、Store0 图标不存在换 Package。
+- 终态：assembleDebug BUILD SUCCESSFUL；桌面 APK 已更新（19:06）。
+- 已知边界：卡库内容来自社区公开仓库（含成人题材分类），页面已提示"请自行甄别"；缩略图未加载（MVP 只列名称，省流量）；更换/追加卡源仓库只需改 CardMarketClient 的 REPO 常量。
