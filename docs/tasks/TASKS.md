@@ -28,6 +28,7 @@
 | AMB-008 | P0 | 测试套件 + 污染探针 + ruff 门禁 | 003-007 | accepted / ZCode-GLM / 2026-09-27：pytest 22 passed / 0 failed；ruff All checks passed |
 | AMB-101 | P1 | 华灯基座审计（代码质量/合并健康度/单维护者风险） | — | accepted / ZCode-GLM / [审计报告](../research/20260927-huadeng-audit.md) 2026-09-27 |
 | AMB-102 | P1 | fork + de-google 构建 + CI | 101 | review / ZCode-GLM / 2026-09-27 本机构建通过（app-debug.apk 144M）；de-google 无需补丁（Firebase 属性门控默认关）；fork git 基线与 CI 待用户 GitHub 账号授权后建立 |
+| AMB-103 | P1.5 | AstrBot 资产迁移：relationship_companion.db → 琥珀角色卡 | — | accepted / ZCode-GLM / `core/tools/import_from_astrbot.py`（提交 d2984e6）；实测产出小美卡（901 条世界书含证据触发词、38 记忆、59 边界、画像全量入 extensions.amber）与小夏卡；用户路径=传 json 到手机→助手导入 |
 | AMB-201 | P2 | Kotlin：导入器移植（Room schema） | 102 | accepted（形态修正）/ ZCode-GLM / 2026-09-27 导入器不重写——amber_core.importer 经 Chaquopy 直接进 App（`app/src/main/python/amber_core`） |
 | AMB-202 | P2 | Kotlin：蒸馏状态机 + WorkManager 后台分批 | 102 | accepted（形态修正）/ ZCode-GLM / 2026-09-27 `amber_bridge.py`（后台线程 job + 轮询）+ `AmberDistillManager`（单例 StateFlow）+ `SettingAmberPage`（SAF 选文件/角色名/LLM 配置/进度/产物），编译+全量构建通过 |
 | AMB-203 | P2 | Kotlin：四层记忆 + 三因子召回 | 201-202 | review / ZCode-GLM / 2026-09-27 审计修正：华灯记忆系统（三层+Jev+衰减+压缩）已覆盖大部分语义，本任务收窄为"蒸馏记忆种子→华灯记忆库自动注入"；卡片内 lore/mes_example 已随导入生效，种子自动注入待做 |
