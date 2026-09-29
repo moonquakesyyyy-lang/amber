@@ -1,13 +1,13 @@
 {
- "version": "2.6.4-amber.5",
- "publishedAt": "2026-09-29T16:15:00+08:00",
- "changelog": "v2.6.4-amber.5：修复卡市场索引解析错误（此前网络已通但字段映射 bug 导致整页失败）。卡市场恢复正常。",
+ "version": "2.7.0-amber.6",
+ "publishedAt": "2026-09-30T01:50:00+08:00",
+ "changelog": "v2.7.0-amber.6：小说蒸馏进 App（选 TXT/EPUB→多角色卡+全书世界书→一键导入）；更新下载提速（全量镜像候选）。",
  "downloads": [
   {
-   "name": "amber-2.6.4-amber.5.apk",
-   "url": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.6.4-amber.5/amber-2.6.4-amber.5.apk",
+   "name": "amber-2.7.0-amber.6.apk",
+   "url": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.7.0-amber.6/amber-2.7.0-amber.6.apk",
    "size": "101.0 MB",
-   "fallbackUrl": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.6.4-amber.5/amber-2.6.4-amber.5.apk"
+   "fallbackUrl": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.7.0-amber.6/amber-2.7.0-amber.6.apk"
   }
  ]
 }
