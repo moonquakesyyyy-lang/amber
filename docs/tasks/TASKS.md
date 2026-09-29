@@ -107,3 +107,10 @@
 - **本轮恢复全机制**：UpdateChecker 完整保留华灯成熟实现（GitHub Releases API 主源 → update.json 兜底 [jsDelivr 国内直连第一优先 + ghproxy 镜像] → 下载前 HEAD 探路 + DownloadManager 断点续传）；REPO 常量留空即禁用，**建仓后填 owner/repo 一行即点亮**。
 - **发版管线全通**：生成琥珀专属签名 keystore（D:/android-dev/amber-release.jks，CN=Amber，不入库）→ local.properties 签名配置 → `assembleRelease` 实测成功（app-release.apk 101M，R8 后比 debug 小 47M，apksigner 验签通过）→ `core/tools/release.py` 一键发版（构建+update.json 生成+gh 发布指引）。
 - **待用户一步**：GitHub 建仓（建议名 amber）+ `gh auth login` 授权；之后 `python core/tools/release.py --repo <用户名>/amber` 即完成首次正式发版，App 内更新检查自动点亮。
+
+## 9. 卡市场通道重做（2026-09-29，华灯 fork 提交见 fork 仓 log）
+
+- 用户真机反馈：卡市场"所有镜像均不可达"（gh-proxy 系镜像在手机运营商网络下不可达，PC 宽带可达——网络环境差异）。
+- **v2 方案**：卡库索引静态化（`market.json`，1535 张卡/32 分类，构建期离线生成入库）+ jsDelivr CDN 拉取（国内可达性最好，PC+真机链路验证）+ gh-proxy/raw 兜底；每张卡自带 4 候选下载 URL 逐个容错。
+- 发版 v2.6.1-amber.2 (231)：Release + update.json 已更新，jsDelivr 已生效。
+- 经验沉淀：手机网络 ≠ PC 网络，镜像通道必须真机验证；静态索引比动态 API 少 2/3 请求数且可 CDN 缓存。
