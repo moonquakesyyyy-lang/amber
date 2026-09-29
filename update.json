@@ -1,13 +1,13 @@
 {
- "version": "2.6.2-amber.3",
- "publishedAt": "2026-09-29T14:00:00+08:00",
- "changelog": "v2.6.2-amber.3：助手页顶栏新增「角色卡导入」一键入口（支持酒馆 PNG/JSON/网址），不再藏在新建助手流程里。",
+ "version": "2.6.3-amber.4",
+ "publishedAt": "2026-09-29T15:30:00+08:00",
+ "changelog": "v2.6.3-amber.4：关于页新增「检查更新」一键入口（结果/失败原因可见，可点击下载）。",
  "downloads": [
   {
-   "name": "amber-2.6.2-amber.3.apk",
-   "url": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.6.2-amber.3/amber-2.6.2-amber.3.apk",
+   "name": "amber-2.6.3-amber.4.apk",
+   "url": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.6.3-amber.4/amber-2.6.3-amber.4.apk",
    "size": "101.0 MB",
-   "fallbackUrl": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.6.2-amber.3/amber-2.6.2-amber.3.apk"
+   "fallbackUrl": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.6.3-amber.4/amber-2.6.3-amber.4.apk"
   }
  ]
 }
