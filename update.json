@@ -1,13 +1,13 @@
 {
- "version": "2.6.1-amber.2",
- "publishedAt": "2026-09-29T12:30:00+08:00",
- "changelog": "v2.6.1-amber.2：卡市场通道重做（jsDelivr CDN 静态索引），修复手机网络下卡库加载失败；1535 张卡多候选下载。",
+ "version": "2.6.2-amber.3",
+ "publishedAt": "2026-09-29T14:00:00+08:00",
+ "changelog": "v2.6.2-amber.3：助手页顶栏新增「角色卡导入」一键入口（支持酒馆 PNG/JSON/网址），不再藏在新建助手流程里。",
  "downloads": [
   {
-   "name": "amber-2.6.1-amber.2.apk",
-   "url": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.6.1-amber.2/amber-2.6.1-amber.2.apk",
+   "name": "amber-2.6.2-amber.3.apk",
+   "url": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.6.2-amber.3/amber-2.6.2-amber.3.apk",
    "size": "101.0 MB",
-   "fallbackUrl": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.6.1-amber.2/amber-2.6.1-amber.2.apk"
+   "fallbackUrl": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.6.2-amber.3/amber-2.6.2-amber.3.apk"
   }
  ]
 }
