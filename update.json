@@ -1,13 +1,13 @@
 {
- "version": "2.6.0-amber.1",
- "publishedAt": "2026-09-29T11:35:00+08:00",
- "changelog": "琥珀 v2.6.0-amber.1：首个正式签名版。蒸馏引擎/卡市场/主动消息护栏/自动更新通道启用。",
+ "version": "2.6.1-amber.2",
+ "publishedAt": "2026-09-29T12:30:00+08:00",
+ "changelog": "v2.6.1-amber.2：卡市场通道重做（jsDelivr CDN 静态索引），修复手机网络下卡库加载失败；1535 张卡多候选下载。",
  "downloads": [
   {
-   "name": "amber-2.6.0-amber.1.apk",
-   "url": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.6.0-amber.1/amber-2.6.0-amber.1.apk",
+   "name": "amber-2.6.1-amber.2.apk",
+   "url": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.6.1-amber.2/amber-2.6.1-amber.2.apk",
    "size": "101.0 MB",
-   "fallbackUrl": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.6.0-amber.1/amber-2.6.0-amber.1.apk"
+   "fallbackUrl": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.6.1-amber.2/amber-2.6.1-amber.2.apk"
   }
  ]
 }
