@@ -1,0 +1,13 @@
+{
+ "version": "2.6.0-amber.1",
+ "publishedAt": "2026-09-29T11:35:00+08:00",
+ "changelog": "琥珀 v2.6.0-amber.1：首个正式签名版。蒸馏引擎/卡市场/主动消息护栏/自动更新通道启用。",
+ "downloads": [
+  {
+   "name": "amber-2.6.0-amber.1.apk",
+   "url": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.6.0-amber.1/amber-2.6.0-amber.1.apk",
+   "size": "101.0 MB",
+   "fallbackUrl": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.6.0-amber.1/amber-2.6.0-amber.1.apk"
+  }
+ ]
+}
