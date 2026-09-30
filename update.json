@@ -1,13 +1,13 @@
 {
- "version": "2.7.0-amber.6",
- "publishedAt": "2026-09-30T01:50:00+08:00",
- "changelog": "v2.7.0-amber.6：小说蒸馏进 App（选 TXT/EPUB→多角色卡+全书世界书→一键导入）；更新下载提速（全量镜像候选）。",
+ "version": "2.7.1-amber.7",
+ "publishedAt": "2026-09-30T12:00:00+08:00",
+ "changelog": "v2.7.1-amber.7（审查整改验收包）：导入格式修复；任务失败语义+重试；备份排除敏感数据+Keystore 加密；共享世界书绑定；引文归属；导出防覆盖；蒸馏对象点选。",
  "downloads": [
   {
-   "name": "amber-2.7.0-amber.6.apk",
-   "url": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.7.0-amber.6/amber-2.7.0-amber.6.apk",
+   "name": "amber-2.7.1-amber.7.apk",
+   "url": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.7.1-amber.7/amber-2.7.1-amber.7.apk",
    "size": "101.0 MB",
-   "fallbackUrl": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.7.0-amber.6/amber-2.7.0-amber.6.apk"
+   "fallbackUrl": "https://github.com/moonquakesyyyy-lang/amber/releases/download/v2.7.1-amber.7/amber-2.7.1-amber.7.apk"
   }
  ]
 }
