@@ -15,6 +15,59 @@ from .schema import DIRECTION_OTHER, DIRECTION_SELF, Message
 
 SUPPORTED_SOURCES = ("telegram", "generic_jsonl", "generic_csv", "memotrace", "auto")
 
+# 聊天蒸馏支持的扩展名（其它给出明确提示，而不是解析失败）
+CHAT_EXTENSIONS = {".json", ".jsonl", ".csv"}
+# 小说蒸馏支持的扩展名
+NOVEL_EXTENSIONS = {".txt", ".epub"}
+
+
+def sniff_format(path) -> str:
+    """按扩展名判定格式类别；不支持时抛出带明确指引的错误。"""
+    suffix = Path(path).suffix.lower()
+    if suffix in CHAT_EXTENSIONS:
+        return "chat"
+    if suffix in NOVEL_EXTENSIONS:
+        return "novel"
+    raise ValueError(
+        f"不支持的文件格式：{suffix or '（无扩展名）'}。"
+        f"聊天蒸馏支持 {sorted(CHAT_EXTENSIONS)}，小说蒸馏支持 {sorted(NOVEL_EXTENSIONS)}。"
+    )
+
+
+def inspect_file(path) -> dict:
+    """蒸馏对象选择（Q-7）：解析文件，返回说话人统计与双方样例。
+
+    返回 {format, total, senders: [{name, count, samples[<=3]}]}。
+    此时无法判定 direction（用户尚未选择蒸馏对象），仅按 sender_name 统计。
+    """
+    p = Path(path)
+    suffix = p.suffix.lower()
+    if suffix == ".json":
+        # TG / MemoTrace JSON：复用各自解析器（无需 self_names 即可取 sender_name）
+        raw = json.loads(p.read_text(encoding="utf-8"))
+        looks_tg = "messages" in raw and str(raw.get("messages", ""))[:200].count('"type"') > 0
+        if isinstance(raw, dict) and looks_tg:
+            msgs = import_telegram(p, set())
+        else:
+            msgs = import_memotrace(p, set())
+    elif suffix == ".jsonl":
+        msgs = import_generic_jsonl(p, set())
+    elif suffix == ".csv":
+        msgs = import_generic_csv(p, set())
+    else:
+        raise ValueError(
+            f"聊天蒸馏不支持 {suffix or '（无扩展名）'}：支持 {sorted(CHAT_EXTENSIONS)}。"
+            f"小说请切换到小说蒸馏模式（{sorted(NOVEL_EXTENSIONS)}）。"
+        )
+    stat: dict[str, dict] = {}
+    for m in msgs:
+        d = stat.setdefault(m.sender_name, {"name": m.sender_name, "count": 0, "samples": []})
+        d["count"] += 1
+        if len(d["samples"]) < 3 and len(m.content.strip()) >= 2:
+            d["samples"].append(m.content.strip()[:60])
+    senders = sorted(stat.values(), key=lambda x: -x["count"])
+    return {"format": suffix, "total": len(msgs), "senders": senders}
+
 
 class ImportError_(ValueError):
     """导入失败（格式不识别/缺关键列），message 应可指导用户换导出格式。"""
