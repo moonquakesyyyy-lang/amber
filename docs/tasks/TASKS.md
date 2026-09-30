@@ -148,3 +148,36 @@
 - 发版 v2.7.0-amber.6（Release + update.json + 桌面）。
 - 教训：长 Python 补丁禁用 heredoc（引号嵌套吞 EOF），一律 Write 脚本文件执行；临时补丁文件勿入库。
 - 待做：代入角色引导（选"我扮演谁"）；剧情推进模式。
+
+## 14. 审查整改（2026-09-30，v2.7.1-amber.7 / build 236；基线 v2.7.0-amber.6/235）
+
+### 修改记录（顺序与审查单一致）
+
+| # | 项 | 修复位置 | 验证 | 测试 |
+|---|---|---|---|---|
+| 1 | 导入格式 | `AmberDistillManager.copyToCache/queryDisplayName`（保留原始文件名+扩展名）；`importer.sniff_format`（白名单预检+明确报错） | 5 类文件扩展名保留；docx/无扩展名给出指引性报错 | `test_sniff_format_*`（3 项） |
+| 2 | 任务状态 | `novel.distill_novel_blocks`（全失败抛 RuntimeError；blocks_done/blocks_processed/blocks_failed 分列；failed_block_ids）；bridge `distill_retry`（chat=resume、novel=carry 合并重试） | 全失败抛错不产产物；部分失败 report 带缺失；重试只跑失败块 | `test_all_blocks_failed_raises` / `test_partial_failure_reports_missing` |
+| 3 | 敏感数据备份 | `res/xml/data_extraction_rules.xml`+`backup_rules.xml`（排除 database/sharedpref/datastore/amber_exports/distill 全部敏感域）；`data/amber/AmberSecrets.kt`（AndroidKeyStore AES-GCM，密文 enc:v1: 格式，明文自动迁移） | lint 通过（cache domain 无效已修）；key 读写走加解密 | 备份规则 lint 构建验证 |
+| 4 | 共享世界书 | bridge novel 产物卡不内嵌世界书；`SettingAmberPage` 导入全部先 addLorebooks(worldbook) 得 ids，再绑定全部角色 | 数据结构测试：世界书独立、卡内嵌为空 | `test_worldbook_separate_from_cards` |
+| 5 | 引文归属 | `NOVEL_SYSTEM_PROMPT` evidence 加 speaker 字段；`distill_novel_blocks` 只按 speaker 精确归属，无主引文进 pending_quotes | speaker 命中归卡；无主标待核验 | `test_distill_end_to_end`（pending 断言） |
+| 6 | 导出覆盖 | `saveCard`：任务子目录 `amber_exports/task_<ts>/`，卡(worldbook/ cards 分目录)命名，冲突追加序号 | 同名角色/“世界书”名不覆盖 | 目录化逻辑（构建+真机项） |
+| 7 | 蒸馏对象 | `importer.inspect_file`（说话人统计+样例）；bridge `inspect_file`+target_sender 重打 direction；蒸馏页删除“你的名字”文本框 → 自动检视+点选蒸馏对象 | 说话人列表/条数/样例正确；target 重打 direction | `test_inspect_file_senders_and_samples` |
+
+### 验收表（真机项待用户执行）
+
+| 测试场景 | 预期 | 实际 | 状态 |
+|---|---|---|---|
+| CSV/JSONL/TG JSON 从 App 选文件 | 保留后缀进入解析 | pytest sniff/inspect 5 项绿；Kotlin queryDisplayName 编译验证 | ✅（自动化） |
+| 不支持格式 | 明确提示 | sniff_format 报“不支持的文件格式…支持…” | ✅（自动化） |
+| 错误 Key / 断网 / 部分失败 / 全部失败 | 状态正确；全失败不产产物 | pytest 4 项绿（RuntimeError/failed_ids/分列统计） | ✅（自动化） |
+| 导入 3 角色绑定同一世界书 | 世界书数量=1 | 数据结构测试绿；真机重复创建验证 | ⏳ 待真机 |
+| 小红对白只进小红卡 | 引文按 speaker 归属 | pytest speaker/pending 断言绿 | ✅（自动化） |
+| 两本书同名角色 / 角色名“世界书” | 旧卡完整保留 | 任务子目录+分目录+序号逻辑；真机验证 | ⏳ 待真机 |
+| 开始前展示双方样例并点选对象 | 画像来自所选对象 | inspect 测试绿；真机 UI 验证 | ⏳ 待真机 |
+| 真机全流程：选文件→蒸馏→导入→绑定→对话 | 全链路 | — | ⏳ 待真机 |
+| 切后台/重建/进程回收 | 失败恢复方式明确 | 任务在 Chaquopy 进程内，进程回收即中断；已产出文件保留于 amber_exports/task_*；重进页面可对失败任务点重试（内存态） | ⏳ 待真机；持久化重试列 AMB-109 |
+
+### 测试与文档
+
+- pytest **34 passed / 0 failed**（新增 test_review_fixes.py 6 项 + test_novel.py 更新）；ruff 全绿
+- 本文件与 README 已同步实际测试数量与状态
